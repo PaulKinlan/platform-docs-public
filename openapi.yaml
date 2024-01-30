@@ -4,7 +4,7 @@ info:
   description: Chat Completion and Embeddings APIs
   version: 0.0.1
 servers:
-  - url: 'https://api.mistral.ai/v1'
+  - url: "https://api.mistral.ai/v1"
 paths:
   /chat/completions:
     post:
@@ -15,14 +15,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ChatCompletionRequest'
+              $ref: "#/components/schemas/ChatCompletionRequest"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChatCompletionResponse'
+                $ref: "#/components/schemas/ChatCompletionResponse"
   /embeddings:
     post:
       operationId: createEmbedding
@@ -32,27 +32,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmbeddingRequest'
-            
+              $ref: "#/components/schemas/EmbeddingRequest"
+
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmbeddingResponse'
+                $ref: "#/components/schemas/EmbeddingResponse"
   /models:
     get:
       operationId: listModels
       summary: List Available Models
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelList'
+                $ref: "#/components/schemas/ModelList"
+security:
+  - ApiKeyAuth: []
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: http
+      scheme: "bearer"
   schemas:
     Error:
       type: object
@@ -78,7 +84,7 @@ components:
       type: object
       properties:
         error:
-          $ref: '#/components/schemas/Error'
+          $ref: "#/components/schemas/Error"
       required:
         - error
     ModelList:
@@ -89,7 +95,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Model'
+            $ref: "#/components/schemas/Model"
       required:
         - object
         - data
@@ -116,9 +122,8 @@ components:
                   - assistant
               content:
                 type: string
-          example: [
-            {"role": "user", "content": "What is the best French cheese?"}
-          ]
+          example:
+            [{ "role": "user", "content": "What is the best French cheese?" }]
         temperature:
           type: number
           minimum: 0.0
@@ -150,7 +155,7 @@ components:
           description: |
             The maximum number of tokens to generate in the completion.
 
-            The token count of your prompt plus `max_tokens` cannot exceed the model's context length. 
+            The token count of your prompt plus `max_tokens` cannot exceed the model's context length.
         # Not supported yet
         # stop:
         #   description: |
@@ -274,7 +279,7 @@ components:
     EmbeddingResponse:
       type: object
       properties:
-        id: 
+        id:
           type: string
           example: embd-aad6fc62b17349b192ef09225058bc45
         object:
@@ -296,18 +301,19 @@ components:
               index:
                 type: int
                 example: 0
-          example: [
-            {
-              "object": "embedding",
-              "embedding": [0.1, 0.2, 0.3],
-              "index": 0
-            },
-            {
-              "object": "embedding",
-              "embedding": [0.4, 0.5, 0.6],
-              "index": 1
-            }
-          ]
+          example:
+            [
+              {
+                "object": "embedding",
+                "embedding": [0.1, 0.2, 0.3],
+                "index": 0,
+              },
+              {
+                "object": "embedding",
+                "embedding": [0.4, 0.5, 0.6],
+                "index": 1,
+              },
+            ]
         model:
           type: string
         usage:
